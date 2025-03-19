@@ -1,3 +1,4 @@
+import 'package:chat_app/features/home/presentation/widgets/basic_chat_item.dart';
 import 'package:chat_app/features/home/presentation/widgets/tab_header.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,17 @@ class HomeTab extends StatelessWidget {
             const SizedBox(
               height: 47,
             ),
-            const TabHeader(),
+             Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: TabHeader(
+                  title: 'Home',
+                  trailingIcon: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.settings,
+                        color: Colors.white,
+                      ))),
+            ),
             const SizedBox(
               height: 24,
             ),
@@ -88,7 +99,7 @@ class HomeTab extends StatelessWidget {
           child: CircleAvatar(
             radius: 35,
             backgroundImage: NetworkImage(
-                'https://img.freepik.com/premium-vector/avatar-icon0002_750950-43.jpg'),
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPg_Rpex-dL6GPOMJeXJjuMVULKAnHtjQJew&s'),
           ),
         ),
       ],
@@ -127,28 +138,9 @@ class HomeTab extends StatelessWidget {
   Widget _listContacts() {
     return ListView.separated(
         itemBuilder: (context, index) {
-          return ListTile(
-            leading: CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(
-                  'https://img.freepik.com/premium-vector/avatar-icon0002_750950-43.jpg'),
-            ),
-            title: Text(
-              "User $index",
-              style: TextStyle(color: Colors.white),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            subtitle: Text(
-              "Message $index aaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaa",
-              style:
-                  TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 12),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          );
+          return BasicChatItem(index: index);
         },
-        separatorBuilder: (context, index) => SizedBox(
+        separatorBuilder: (context, index) => const SizedBox(
               height: 10,
             ),
         itemCount: 10);
