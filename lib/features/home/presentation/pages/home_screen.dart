@@ -1,3 +1,5 @@
+import 'package:chat_app/features/home/presentation/pages/home_tab.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../common/constants/colors.dart';
 
@@ -10,30 +12,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  
-  // Danh sách các tab
+
   final List<Widget> _tabs = [
-    const ChatsTab(),
+    const HomeTab(),
     const ContactsTab(),
     const SettingsTab(),
   ];
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
-        title: const Text('Chat App'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              // Hiển thị tìm kiếm
-            },
-          ),
-        ],
-      ),
-      body: _tabs[_selectedIndex],
+      body: Stack(children: [
+        _tabs[_selectedIndex],
+        Positioned(
+            bottom: 0,
+            right: 20,
+            child:
+                IconButton(onPressed: () {}, icon: Icon(Icons.notifications,size: 40,color: Color(0xffFFC107),)))
+      ]),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
@@ -46,123 +42,19 @@ class _HomeScreenState extends State<HomeScreen> {
         unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble),
-            label: 'Chats',
+            icon: Icon(CupertinoIcons.house_fill),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.contacts),
-            label: 'Contacts',
+            icon: Icon(Icons.message),
+            label: 'Chat',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.phone),
+            label: 'Call',
           ),
         ],
       ),
-    );
-  }
-}
-
-// Tab hiển thị danh sách các cuộc trò chuyện
-class ChatsTab extends StatelessWidget {
-  const ChatsTab({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // Dữ liệu mẫu
-    final List<Map<String, dynamic>> chats = [
-      {
-        'name': 'Alice Johnson',
-        'message': 'Hey! How are you?',
-        'time': '10:30 AM',
-        'unread': 2,
-      },
-      {
-        'name': 'Bob Smith',
-        'message': 'Are we still meeting tomorrow?',
-        'time': 'Yesterday',
-        'unread': 0,
-      },
-      {
-        'name': 'Charlie Brown',
-        'message': 'I sent you the report',
-        'time': 'Yesterday',
-        'unread': 0,
-      },
-      {
-        'name': 'Diana Prince',
-        'message': 'Thanks for your help!',
-        'time': 'Mon',
-        'unread': 1,
-      },
-    ];
-
-    return ListView.builder(
-      itemCount: chats.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundColor: Colors.grey.shade800,
-            child: Text(
-              chats[index]['name'][0],
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-          title: Text(
-            chats[index]['name'],
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          subtitle: Text(
-            chats[index]['message'],
-            style: TextStyle(
-              color: Colors.grey.shade400,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                chats[index]['time'],
-                style: TextStyle(
-                  color: Colors.grey.shade400,
-                  fontSize: 12.0,
-                ),
-              ),
-              const SizedBox(height: 4.0),
-              if (chats[index]['unread'] > 0)
-                Container(
-                  padding: const EdgeInsets.all(6.0),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    '${chats[index]['unread']}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10.0,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          onTap: () {
-            Navigator.pushNamed(
-              context, 
-              '/chat',
-              arguments: {
-                'name': chats[index]['name'],
-              },
-            );
-          },
-        );
-      },
     );
   }
 }
@@ -214,7 +106,7 @@ class ContactsTab extends StatelessWidget {
           ),
           onTap: () {
             Navigator.pushNamed(
-              context, 
+              context,
               '/chat',
               arguments: {
                 'name': contacts[index]['name'],
