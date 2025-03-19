@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../constants/colors.dart';
-import '../../constants/text_styles.dart';
-import '../../widgets/custom_button.dart';
+
+import '../../../../common/constants/colors.dart';
+import '../../../../common/widgets/custom_button.dart';
+
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);

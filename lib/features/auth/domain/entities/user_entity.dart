@@ -5,7 +5,7 @@ class User {
   final String? profilePictureUrl;
   final bool isOnline;
   final String? lastSeen;
-  
+
   User({
     required this.id,
     required this.phoneNumber,
@@ -14,7 +14,7 @@ class User {
     this.isOnline = false,
     this.lastSeen,
   });
-  
+
   // Chuyển từ Map sang Object
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
@@ -26,7 +26,7 @@ class User {
       lastSeen: map['lastSeen'],
     );
   }
-  
+
   // Chuyển từ Object sang Map
   Map<String, dynamic> toMap() {
     return {

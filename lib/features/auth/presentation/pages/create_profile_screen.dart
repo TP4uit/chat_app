@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../constants/colors.dart';
-import '../../constants/text_styles.dart';
-import '../../widgets/custom_button.dart';
-import '../../widgets/custom_text_field.dart';
+import '../../../../common/constants/colors.dart';
+import '../../../../common/widgets/custom_button.dart';
+import '../../../../common/widgets/custom_text_field.dart';
+
 
 class CreateProfileScreen extends StatefulWidget {
   const CreateProfileScreen({Key? key}) : super(key: key);

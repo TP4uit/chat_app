@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../constants/colors.dart';
-import '../../constants/text_styles.dart';
-import '../../widgets/custom_button.dart';
-import '../../widgets/custom_text_field.dart';
+
+import '../../../../common/constants/colors.dart';
+import '../../../../common/constants/text_styles.dart';
+import '../../../../common/widgets/custom_button.dart';
+import '../../../../common/widgets/custom_text_field.dart';
+
 
 class PhoneNumberScreen extends StatefulWidget {
   const PhoneNumberScreen({Key? key}) : super(key: key);
