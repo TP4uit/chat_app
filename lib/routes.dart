@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'screens/onboarding/welcome_screen.dart';
-import 'screens/onboarding/phone_number_screen.dart';
-import 'screens/onboarding/verification_code_screen.dart';
-import 'screens/onboarding/create_profile_screen.dart';
-import 'screens/onboarding/loading_screen.dart';
-import 'screens/home/home_screen.dart';
-import 'screens/chat/chat_screen.dart';
+import 'features/auth/presentation/pages/create_profile_screen.dart';
+import 'features/auth/presentation/pages/loading_screen.dart';
+import 'features/auth/presentation/pages/phone_number_screen.dart';
+import 'features/auth/presentation/pages/verification_code_screen.dart';
+import 'features/auth/presentation/pages/welcome_screen.dart';
+import 'features/home/presentation/pages/home_screen.dart';
+import 'features/chat/presentation/pages/chat_screen.dart';
 
 class Routes {
   static const String welcome = '/';
