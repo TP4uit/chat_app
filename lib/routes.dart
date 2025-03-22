@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
-import 'features/auth/presentation/pages/create_profile_screen.dart';
-import 'features/auth/presentation/pages/loading_screen.dart';
-import 'features/auth/presentation/pages/phone_number_screen.dart';
-import 'features/auth/presentation/pages/verification_code_screen.dart';
-import 'features/auth/presentation/pages/welcome_screen.dart';
+import 'features/auth/presentation/pages/opening_screen.dart';
+import 'features/auth/presentation/pages/get_started_screen.dart';
+import 'features/auth/presentation/pages/login_screen.dart';
+import 'features/auth/presentation/pages/verification_screen.dart';
+import 'features/auth/presentation/pages/user_settings_screen.dart';
 import 'features/home/presentation/pages/home_screen.dart';
 import 'features/chat/presentation/pages/chat_screen.dart';
 
 class Routes {
-  static const String welcome = '/';
-  static const String phone = '/phone';
+static const String opening = '/';
+  static const String get_started = '/get_started';
+  static const String login = '/login';
   static const String verification = '/verification';
-  static const String createProfile = '/create_profile';
-  static const String loading = '/loading';
+  static const String user_settings = '/user_settings';
   static const String home = '/home';
   static const String chat = '/chat';
 
-  static Map<String, WidgetBuilder> getRoutes() {
+   static Map<String, WidgetBuilder> getRoutes() {
     return {
-      welcome: (context) => const WelcomeScreen(),
-      phone: (context) => const PhoneNumberScreen(),
-      verification: (context) => const VerificationCodeScreen(),
-      createProfile: (context) => const CreateProfileScreen(),
-      loading: (context) => const LoadingScreen(),
+      opening: (context) => const OpeningScreen(),
+      get_started: (context) => const GetStartedScreen(),
+      login: (context) => const LoginScreen(),
+      verification: (context) => const VerificationScreen(),
+      user_settings: (context) => const UserSettingsScreen(),
       home: (context) => const HomeScreen(),
       chat: (context) => const ChatScreen(),
     };

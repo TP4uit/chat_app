@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Chat App',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme ,
-      initialRoute: Routes.welcome,
+      theme: AppTheme.darkTheme,
+      initialRoute: Routes.opening,  // Đã cập nhật từ welcome thành opening
       routes: Routes.getRoutes(),
     );
   }
