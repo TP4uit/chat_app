@@ -43,12 +43,20 @@ class _OpeningScreenState extends State<OpeningScreen> with SingleTickerProvider
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Text "Welcome"
-            const Text(
-              'Welcome',
-              style: TextStyle(
-                color: AppColors.secondaryTextColor,
-                fontSize: 32.0,
-                fontWeight: FontWeight.bold,
+            const SizedBox(
+              width: 358,
+              height: 60,
+              child: Text(
+                'Welcome',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: const Color(0xFF428875),
+                  fontSize: 40,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w700,
+                  height: 0.55,
+                  letterSpacing: -0.41,
+                ),
               ),
             ),
             

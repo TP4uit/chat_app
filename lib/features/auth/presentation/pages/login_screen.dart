@@ -47,13 +47,14 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center, // Căn giữa tất cả các phần tử theo chiều ngang
             children: [
               const SizedBox(height: 60.0),
               
               // Text "Enter your phone number"
               const Text(
                 'Enter your phone number',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24.0,
@@ -66,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // Row chứa country code và ô nhập số điện thoại
               Row(
                 children: [
-                  // Country code button +62
+                  // Country code button +62 với màu đỏ
                   Container(
                     height: 56,
                     decoration: BoxDecoration(
@@ -74,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(4),
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: const Center(
+                    child: Center(
                       child: Row(
                         children: [
                           Icon(Icons.add, color: Colors.white, size: 18),
@@ -128,12 +129,10 @@ class _LoginScreenState extends State<LoginScreen> {
               
               const Spacer(),
               
-              // Continue button
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: _isButtonEnabled 
+              // Continue button với gradient
+              Center(
+                child: GestureDetector(
+                  onTap: _isButtonEnabled 
                       ? () {
                           Navigator.pushNamed(
                             context, 
@@ -142,20 +141,46 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         }
                       : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryColor,
-                    foregroundColor: Colors.black,
-                    disabledBackgroundColor: AppColors.primaryColor.withOpacity(0.5),
-                    disabledForegroundColor: Colors.black.withOpacity(0.5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(28),
-                    ),
-                  ),
-                  child: const Text(
-                    'Continue',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                  child: Container(
+                    width: 280,
+                    height: 50,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          child: Container(
+                            width: 280,
+                            height: 50,
+                            decoration: ShapeDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment(-0.00, 0.50),
+                                end: Alignment(1.00, 0.50),
+                                colors: _isButtonEnabled 
+                                    ? [const Color(0xFF448976), const Color(0xFF95EDC5)]
+                                    : [const Color(0xFF448976).withOpacity(0.5), const Color(0xFF95EDC5).withOpacity(0.5)],
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: Text(
+                            'Continue',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black.withOpacity(_isButtonEnabled ? 1.0 : 0.5),
+                              fontSize: 20,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              height: 1.10,
+                              letterSpacing: -0.41,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
