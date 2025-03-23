@@ -106,6 +106,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Row(
           children: [
             CircleAvatar(
@@ -128,6 +129,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
                 const Text(
@@ -143,19 +145,19 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.videocam),
+            icon: const Icon(Icons.videocam, color: Colors.white),
             onPressed: () {
               // Chức năng gọi video
             },
           ),
           IconButton(
-            icon: const Icon(Icons.call),
+            icon: const Icon(Icons.call, color: Colors.white),
             onPressed: () {
               // Chức năng gọi điện
             },
           ),
           IconButton(
-            icon: const Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert, color: Colors.white),
             onPressed: () {
               // Hiển thị menu
             },
@@ -227,21 +229,22 @@ class _ChatScreenState extends State<ChatScreen> {
                   },
                 ),
                 Expanded(
-                  child: TextField(
-                    controller: _messageController,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: 'Type a message',
-                      hintStyle: TextStyle(color: Colors.grey.shade400),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: Colors.grey.shade800,
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 8.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white, // Đổi sang màu trắng để nhìn rõ chữ
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: TextField(
+                      controller: _messageController,
+                      style: const TextStyle(color: Colors.black), // Đổi màu chữ sang đen
+                      decoration: InputDecoration(
+                        hintText: 'Type a message',
+                        hintStyle: TextStyle(color: Colors.grey.shade600),
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 8.0,
+                        ),
                       ),
                     ),
                   ),

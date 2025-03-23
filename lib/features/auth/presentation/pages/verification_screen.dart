@@ -66,7 +66,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 40),
             
@@ -100,9 +99,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(
                 4,
-                (index) => SizedBox(
+                (index) => Container(
                   width: 70,
                   height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   child: TextField(
                     controller: _controllers[index],
                     focusNode: _focusNodes[index],
@@ -111,15 +114,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.black, // Đổi từ màu trắng sang màu đen
                     ),
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey[800],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
-                      ),
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
                     ),
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(1),
@@ -137,58 +135,69 @@ class _VerificationScreenState extends State<VerificationScreen> {
             
             const Spacer(),
             
-            // Continue Button
-            SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: ElevatedButton(
-                onPressed: _isButtonEnabled 
+            // Continue Button - với gradient như các screen khác
+            Center(
+              child: GestureDetector(
+                onTap: _isButtonEnabled 
                     ? () {
                         Navigator.pushNamed(context, '/user_settings');
                       }
                     : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  foregroundColor: Colors.black,
-                  disabledBackgroundColor: AppColors.primaryColor.withOpacity(0.5),
-                  disabledForegroundColor: Colors.black.withOpacity(0.5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(28),
+                child: Container(
+                  width: 280,
+                  height: 50,
+                  decoration: ShapeDecoration(
+                    gradient: LinearGradient(
+                      begin: const Alignment(-0.00, 0.50),
+                      end: const Alignment(1.00, 0.50),
+                      colors: _isButtonEnabled 
+                          ? [const Color(0xFF448976), const Color(0xFF95EDC5)]
+                          : [const Color(0xFF448976).withOpacity(0.5), const Color(0xFF95EDC5).withOpacity(0.5)],
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
                   ),
-                ),
-                child: const Text(
-                  'Continue',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                  child: Center(
+                    child: Text(
+                      'Continue',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(_isButtonEnabled ? 1.0 : 0.5),
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
             
-            const SizedBox(height: 16),
-            
             // Resend code text
-            TextButton(
-              onPressed: () {
-                // Reset form and show snackbar
-                for (var controller in _controllers) {
-                  controller.clear();
-                }
-                _focusNodes[0].requestFocus();
-                
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Verification code resent'),
-                    backgroundColor: Colors.green,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: TextButton(
+                onPressed: () {
+                  // Reset form and show snackbar
+                  for (var controller in _controllers) {
+                    controller.clear();
+                  }
+                  _focusNodes[0].requestFocus();
+                  
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Verification code resent'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                },
+                child: const Text(
+                  "Haven't received the code? Resend code",
+                  style: TextStyle(
+                    color: AppColors.primaryColor,
+                    fontSize: 14,
                   ),
-                );
-              },
-              child: const Text(
-                "Haven't received the code? Resend code",
-                style: TextStyle(
-                  color: AppColors.primaryColor,
-                  fontSize: 14,
                 ),
               ),
             ),
