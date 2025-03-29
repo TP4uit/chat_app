@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static ThemeData get darkTheme {
     return ThemeData(
-      scaffoldBackgroundColor: Color(0xff121212),
+      scaffoldBackgroundColor: const Color(0xff121212),
       primaryColor: AppColors.primaryColor,
       textTheme: const TextTheme(
         displayLarge: TextStyle(color: Colors.white),
@@ -33,7 +33,7 @@ class AppTheme {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
+        borderSide: const BorderSide(color: AppColors.primaryColor, width: 2),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -51,8 +51,12 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(32),
           ),
+          minimumSize: const Size(double.infinity, 48)
         ),
       ),
+      appBarTheme: const AppBarTheme(
+        color: Colors.transparent
+      )
     );
   }
 }
