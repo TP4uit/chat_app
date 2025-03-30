@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../common/constants/colors.dart';
 
 class AppearanceScreen extends StatefulWidget {
   const AppearanceScreen({Key? key}) : super(key: key);
@@ -11,12 +10,12 @@ class AppearanceScreen extends StatefulWidget {
 class _AppearanceScreenState extends State<AppearanceScreen> {
   bool _darkMode = true;
   String _selectedFont = 'Default';
-  final List<String> _availableFonts = ['Default', 'Roboto', 'Open Sans', 'Montserrat', 'Poppins'];
+  final List<String> _fonts = ['Default', 'Roboto', 'Open Sans', 'Montserrat'];
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -30,67 +29,16 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 16.0),
-            
-            // Dark Mode Toggle
-            _buildDarkModeOption(),
-            
-            const SizedBox(height: 24.0),
-            
-            // Font Selection
-            _buildFontOption(),
-            
-            const SizedBox(height: 24.0),
-            
-            // Theme Colors
-            _buildThemeColorsOption(),
-            
-            const SizedBox(height: 24.0),
-            
-            // Chat Bubble Style
-            _buildChatBubbleStyleOption(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDarkModeOption() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            'Dark Mode',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            setState(() {
-              _darkMode = !_darkMode;
-            });
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade800,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: Row(
+            // Dark Mode with switch
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'Enable Dark Mode',
+                  'Dark Mode',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.0,
@@ -103,208 +51,70 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                       _darkMode = value;
                     });
                   },
-                  activeColor: AppColors.primaryColor,
-                  activeTrackColor: AppColors.primaryColor.withOpacity(0.5),
-                  inactiveThumbColor: Colors.grey,
-                  inactiveTrackColor: Colors.grey.withOpacity(0.5),
+                  activeColor: Colors.white,
+                  activeTrackColor: Colors.green,
+                  inactiveThumbColor: Colors.white,
+                  inactiveTrackColor: Colors.grey.shade800,
                 ),
               ],
             ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFontOption() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            'Font',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade800,
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              dropdownColor: Colors.grey.shade800,
-              isExpanded: true,
-              value: _selectedFont,
-              icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
-              items: _availableFonts.map((String font) {
-                return DropdownMenuItem<String>(
-                  value: font,
-                  child: Text(
-                    font,
-                    style: const TextStyle(color: Colors.white),
+            
+            const SizedBox(height: 20.0),
+            
+            // Font with PopupMenuButton
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Font',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
                   ),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                if (newValue != null) {
-                  setState(() {
-                    _selectedFont = newValue;
-                  });
-                }
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildThemeColorsOption() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            'Theme Colors',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 60.0,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              _buildColorOption(AppColors.primaryColor, isSelected: true),
-              _buildColorOption(Colors.blue),
-              _buildColorOption(Colors.purple),
-              _buildColorOption(Colors.red),
-              _buildColorOption(Colors.orange),
-              _buildColorOption(Colors.pink),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildColorOption(Color color, {bool isSelected = false}) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 16.0),
-      child: InkWell(
-        onTap: () {
-          // Handle color selection
-        },
-        child: Container(
-          width: 50.0,
-          height: 50.0,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-            border: isSelected
-                ? Border.all(color: Colors.white, width: 2.0)
-                : null,
-          ),
-          child: isSelected
-              ? const Icon(Icons.check, color: Colors.white)
-              : null,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildChatBubbleStyleOption() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            'Chat Bubble Style',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildBubbleStyleOption(
-              'Rounded',
-              BorderRadius.circular(20.0),
-              isSelected: true,
-            ),
-            _buildBubbleStyleOption(
-              'Square',
-              BorderRadius.circular(5.0),
-            ),
-            _buildBubbleStyleOption(
-              'Sharp',
-              BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-                bottomLeft: Radius.circular(0.0),
-                bottomRight: Radius.circular(20.0),
-              ),
+                ),
+                PopupMenuButton<String>(
+                  color: Colors.grey.shade900,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  offset: const Offset(-20, 0),
+                  child: Row(
+                    children: [
+                      Text(
+                        _selectedFont,
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      const Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                  onSelected: (String value) {
+                    setState(() {
+                      _selectedFont = value;
+                    });
+                  },
+                  itemBuilder: (BuildContext context) {
+                    return _fonts.map((String choice) {
+                      return PopupMenuItem<String>(
+                        value: choice,
+                        child: Text(
+                          choice,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }).toList();
+                  },
+                ),
+              ],
             ),
           ],
         ),
-      ],
-    );
-  }
-
-  Widget _buildBubbleStyleOption(
-      String label, BorderRadius borderRadius, {bool isSelected = false}) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: () {
-            // Handle chat bubble style selection
-          },
-          child: Container(
-            width: 100.0,
-            height: 50.0,
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor,
-              borderRadius: borderRadius,
-              border: isSelected
-                  ? Border.all(color: Colors.white, width: 2.0)
-                  : null,
-            ),
-            child: const Center(
-              child: Text(
-                'Hey there!',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.0,
-                ),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 8.0),
-        Text(
-          label,
-          style: TextStyle(
-            color: isSelected ? AppColors.primaryColor : Colors.white,
-            fontSize: 14.0,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
