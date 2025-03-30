@@ -18,12 +18,14 @@ class HomeTab extends StatelessWidget {
             const SizedBox(
               height: 47,
             ),
-             Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: TabHeader(
                   title: 'Home',
                   trailingIcon: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/settings');
+                      },
                       icon: const Icon(
                         Icons.settings,
                         color: Colors.white,

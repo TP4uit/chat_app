@@ -25,13 +25,24 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings, color: Colors.white),
+            onPressed: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
+        ],
+      ),
       body: Stack(children: [
         _tabs[_selectedIndex],
         const Positioned(
             bottom: 0,
             right: 20,
-            child:
-               NotificationIcon())
+            child: NotificationIcon())
       ]),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
@@ -61,5 +72,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-

@@ -16,7 +16,9 @@ class ContactsTab extends StatelessWidget {
             TabHeader(
                 title: 'Contacts',
                 trailingIcon: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/settings');
+                    },
                     icon: const Icon(
                       Icons.settings,
                       color: Colors.white,

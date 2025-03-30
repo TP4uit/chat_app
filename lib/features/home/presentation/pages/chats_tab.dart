@@ -26,7 +26,9 @@ class ChatsTab extends StatelessWidget {
                       )),
                   const SizedBox(width: 6,),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/settings');
+                      },
                       icon: const Icon(
                         Icons.settings,
                         color: Colors.white,
