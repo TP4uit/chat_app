@@ -8,6 +8,7 @@ class ChatsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -51,6 +52,7 @@ class ChatsTab extends StatelessWidget {
 
   Widget _searchBar() {
     return const TextField(
+      style: TextStyle(color: Colors.black),
         decoration: InputDecoration(hintText: "Search for a chat..."));
   }
 
