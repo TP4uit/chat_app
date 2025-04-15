@@ -36,30 +36,12 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
   @override
   void initState() {
     super.initState();
-    // Mẫu tin nhắn cho demo
+    // Sample messages for demo
     _loadSampleMessages();
   }
 
   void _loadSampleMessages() {
-    DateTime date = DateTime(2023, 7, 25, 16, 46);
-    _messages.add(
-      ChatMessage(
-        text: 'Đi chơi không ?',
-        time: '16:46',
-        isMe: false,
-        date: date,
-      ),
-    );
-    
-    _messages.add(
-      ChatMessage(
-        text: 'Đợi tao 5 phút',
-        time: '16:46',
-        isMe: true,
-        isRead: true,
-        date: date,
-      ),
-    );
+    DateTime date = DateTime(2025, 4, 15, 16, 46);
     
     _messages.add(
       ChatMessage(
@@ -99,6 +81,17 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
         date: date,
       ),
     );
+    
+    DateTime newDate = DateTime(2025, 4, 15, 9, 12);
+    _messages.add(
+      ChatMessage(
+        text: '421414',
+        time: '09:12',
+        isMe: true,
+        isRead: false,
+        date: newDate,
+      ),
+    );
   }
 
   @override
@@ -128,7 +121,7 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
       _messageController.clear();
     });
 
-    // Cuộn xuống tin nhắn mới nhất
+    // Scroll to the latest message
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
@@ -142,9 +135,9 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Lấy thông tin người dùng từ tham số truyền vào (nếu có)
+    // Get user info from parameters (if any)
     final arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    final name = arguments?['name'] as String? ?? 'Triết';
+    final name = arguments?['name'] as String? ?? 'User 0';
     final avatarUrl = arguments?['avatarUrl'] as String?;
 
     return Scaffold(
@@ -154,39 +147,46 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
         backgroundColor: Colors.black,
         leading: BackButton(color: Colors.white),
         titleSpacing: 0,
+        toolbarHeight: 60, // Increased height to match image
         title: Row(
           children: [
             CircleAvatar(
-              radius: 18,
+              radius: 20, // Increased radius
               backgroundColor: Colors.orange,
               backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
               child: avatarUrl == null ? const Icon(Icons.person, color: Colors.white) : null,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 12), // Increased spacing
             Text(
               name,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 16,
+                fontSize: 18, // Increased font size
                 fontWeight: FontWeight.w500,
               ),
             ),
           ],
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.videocam_outlined, color: Colors.white),
-            onPressed: () {},
+          Container(
+            margin: const EdgeInsets.only(right: 12),
+            child: IconButton(
+              icon: Icon(Icons.videocam_outlined, color: Colors.white, size: 30), // Increased size
+              onPressed: () {},
+            ),
           ),
-          IconButton(
-            icon: const Icon(Icons.call, color: Colors.white),
-            onPressed: () {},
+          Container(
+            margin: const EdgeInsets.only(right: 12),
+            child: IconButton(
+              icon: Icon(Icons.call, color: Colors.white, size: 26), // Increased size
+              onPressed: () {},
+            ),
           ),
         ],
       ),
       body: Column(
         children: [
-          // Danh sách tin nhắn
+          // Message list
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
@@ -196,7 +196,7 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
                 final message = _messages[index];
                 final previousMessage = index > 0 ? _messages[index - 1] : null;
                 
-                // Kiểm tra nếu tin nhắn này là ngày mới
+                // Check if this message is a new day
                 bool showDateHeader = false;
                 if (previousMessage == null || 
                     !_isSameDay(message.date, previousMessage.date)) {
@@ -205,11 +205,11 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
                 
                 return Column(
                   children: [
-                    // Hiển thị header ngày nếu cần
+                    // Show date header if needed
                     if (showDateHeader)
                       _buildDateHeader(message.date),
                     
-                    // Tin nhắn
+                    // Message
                     _buildMessageItem(message),
                   ],
                 );
@@ -217,50 +217,93 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
             ),
           ),
           
-          // Thanh nhập tin nhắn
+          // Message input bar
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-            color: Colors.black,
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0), // Điều chỉnh padding
+            color: Colors.black, // Giữ nền đen
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center, // Căn giữa các item theo chiều dọc
               children: [
                 IconButton(
-                  icon: const Icon(
-                    Icons.camera_alt,
-                    color: Colors.white,
+                  icon: Icon(
+                    Icons.camera_alt_outlined, // Sử dụng icon outlined
+                    color: Colors.grey.shade400, // Màu xám nhạt hơn
+                    size: 26, // Giảm kích thước một chút
                   ),
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: const Icon(
-                    Icons.photo,
-                    color: Colors.white,
+                  icon: Icon(
+                    Icons.photo_outlined, // Sử dụng icon outlined
+                    color: Colors.grey.shade400, // Màu xám nhạt hơn
+                    size: 26, // Giảm kích thước một chút
                   ),
                   onPressed: () {},
                 ),
+                const SizedBox(width: 8), // Thêm khoảng cách nhỏ
                 Expanded(
                   child: Container(
+                    height: 44, // Giảm chiều cao một chút
                     decoration: BoxDecoration(
-                      color: Colors.white, // Đổi sang nền trắng
-                      borderRadius: BorderRadius.circular(24),
+                      color: Colors.grey.shade900, // Màu nền xám tối cho TextField
+                      borderRadius: BorderRadius.circular(22.0), // Bo tròn góc
                     ),
-                    child: TextField(
-                      controller: _messageController,
-                      style: const TextStyle(color: Colors.black), // Chữ màu đen
-                      decoration: const InputDecoration(
-                        hintText: 'Ảo thật đấy',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _messageController,
+                            style: const TextStyle(
+                              color: Color.fromARGB(255, 0, 0, 0), // Màu chữ trắng
+                              fontSize: 16.0,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'Text a message.........', // Thay đổi hint text
+                              hintStyle: TextStyle(
+                                color: Colors.grey.shade500, // Màu hint text xám
+                                fontSize: 16.0, // Đồng bộ kích thước font
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Điều chỉnh padding bên trong
+                            ),
+                            textAlignVertical: TextAlignVertical.center,
+                          ),
+                        ),
+                        // Mic button (inside the TextField container)
+                        InkWell(
+                           borderRadius: BorderRadius.circular(20),
+                           onTap: () {
+                             // Mic functionality
+                           },
+                           child: Padding(
+                             padding: const EdgeInsets.symmetric(horizontal: 10.0), // Padding cho mic
+                             child: Icon(
+                               Icons.mic_none_outlined, // Icon mic khác
+                               color: Colors.grey.shade400, // Màu xám nhạt
+                               size: 24,
+                             ),
+                           ),
+                         ),
+                      ],
                     ),
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.send,
-                    color: Color(0xFF4CAF97),
+                const SizedBox(width: 8), // Thêm khoảng cách
+                Container(
+                  width: 44, // Giữ kích thước nút gửi
+                  height: 44,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF00B2A3),
+                    shape: BoxShape.circle,
                   ),
-                  onPressed: _sendMessage,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.send,
+                      color: Colors.white,
+                      size: 22,
+                    ),
+                    onPressed: _sendMessage,
+                  ),
                 ),
               ],
             ),
@@ -270,13 +313,13 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
     );
   }
 
-  // Hàm kiểm tra nếu hai ngày giống nhau
+  // Function to check if two dates are the same day
   bool _isSameDay(DateTime d1, DateTime d2) {
     return d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;
   }
 
   Widget _buildDateHeader(DateTime date) {
-    // Format ngày tháng: "Sat, 25/07/2023"
+    // Format date: "Sat, 25/07/2023"
     String formattedDate = _formatDate(date);
     
     return Container(
@@ -304,7 +347,7 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
     );
   }
 
-  // Hàm format ngày theo định dạng "Sat, 25/07/2023"
+  // Function to format date: "Tue, 15/04/2025"
   String _formatDate(DateTime date) {
     List<String> weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     String weekday = weekdays[date.weekday - 1];
@@ -317,14 +360,14 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
 
   Widget _buildMessageItem(ChatMessage message) {
     if (message.isMe) {
-      // Tin nhắn của người dùng hiện tại (bên phải)
+      // Current user's messages (right side)
       return Align(
         alignment: Alignment.centerRight,
         child: Container(
           margin: const EdgeInsets.only(bottom: 8),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            color: const Color(0xFF4CAF97),
+            color: const Color(0xFFA7F0C8), // Light mint green to match image
             borderRadius: BorderRadius.circular(16),
           ),
           constraints: BoxConstraints(
@@ -335,25 +378,24 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
             children: [
               Text(
                 message.text,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black), // Text color changed to black
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 2),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     message.time,
-                    style: const TextStyle(
-                      color: Colors.white70,
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.6),
                       fontSize: 10,
                     ),
                   ),
-                  const SizedBox(width: 4),
                   if (message.isRead)
-                    const Text(
-                      '• Read',
+                    Text(
+                      ' • Read',
                       style: TextStyle(
-                        color: Colors.white70,
+                        color: Colors.black.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -364,7 +406,7 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
         ),
       );
     } else {
-      // Tin nhắn của người khác (bên trái)
+      // Other's messages (left side)
       return Align(
         alignment: Alignment.centerLeft,
         child: Container(
@@ -374,91 +416,87 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
             children: [
               if (message.senderName != null)
                 Padding(
-                  padding: const EdgeInsets.only(left: 8, bottom: 4),
+                  padding: const EdgeInsets.only(left: 12, bottom: 4),
                   child: Text(
                     message.senderName!,
                     style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  message.imageUrl != null
-                      ? Container(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  message.imageUrl!,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Container(
-                                      height: 150,
-                                      color: Colors.grey,
-                                      child: const Center(
-                                        child: Icon(Icons.error),
-                                      ),
-                                    );
-                                  },
+              message.imageUrl != null
+                ? Container(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.asset(
+                            message.imageUrl!,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                height: 150,
+                                color: Colors.grey,
+                                child: const Center(
+                                  child: Icon(Icons.error),
                                 ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                message.text,
-                                style: const TextStyle(color: Colors.black),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                message.time,
-                                style: TextStyle(
-                                  color: Colors.black.withOpacity(0.6),
-                                  fontSize: 10,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.6,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                message.text,
-                                style: const TextStyle(color: Colors.black),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                message.time,
-                                style: TextStyle(
-                                  color: Colors.black.withOpacity(0.6),
-                                  fontSize: 10,
-                                ),
-                              ),
-                            ],
+                              );
+                            },
                           ),
                         ),
-                ],
-              ),
+                        const SizedBox(height: 8),
+                        Text(
+                          message.text,
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          message.time,
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(0.6),
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.6,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          message.text,
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          message.time,
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(0.6),
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
             ],
           ),
         ),

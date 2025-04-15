@@ -43,133 +43,151 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
         ),
         title: const Text(
           'Your Profile',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+      body: SafeArea(
+        child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 60),
-              
-              // Ảnh đại diện - profile picture
-              Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: Column(
+                  children: [
+                    // Profile picture
+                    Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 100,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.person,
+                            size: 60,
+                            color: Colors.black, // Changed to black as per design
+                          ),
+                        ),
+                        // Camera button at the corner of profile picture
+                        Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.black, width: 2),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.camera_alt,
+                              size: 14,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    child: const Icon(
-                      Icons.person,
-                      size: 60,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  // Nút camera ở góc ảnh đại diện
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.black, width: 2),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
+                    
+                    const SizedBox(height: 30),
+                    
+                    // "What should people call you?"
+                    const Text(
+                      'What should people call you?',
+                      style: TextStyle(
                         color: Colors.white,
-                        shape: BoxShape.circle,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
                       ),
-                      child: const Icon(
-                        Icons.camera_alt,
-                        size: 16,
-                        color: Colors.black,
-                      ),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                ],
-              ),
-              
-              const SizedBox(height: 40),
-              
-              // "What should people call you?"
-              const Text(
-                'What should people call you?',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              
-              const SizedBox(height: 20),
-              
-              // Username TextField - ô nhập tên người dùng
-              Container(
-                height: 56,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: TextField(
-                  controller: _usernameController,
-                  style: const TextStyle(color: Colors.black),
-                  decoration: const InputDecoration(
-                    hintText: 'Username',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              
-              const Spacer(),
-              
-              // Continue Button - với gradient như các screen khác
-              Center(
-                child: GestureDetector(
-                  onTap: _isButtonEnabled 
-                      ? () {
-                          Navigator.pushNamed(context, '/home');
-                        }
-                      : null,
-                  child: Container(
-                    width: 280,
-                    height: 50,
-                    decoration: ShapeDecoration(
-                      gradient: LinearGradient(
-                        begin: const Alignment(-0.00, 0.50),
-                        end: const Alignment(1.00, 0.50),
-                        colors: _isButtonEnabled 
-                            ? [const Color(0xFF448976), const Color(0xFF95EDC5)]
-                            : [const Color(0xFF448976).withOpacity(0.5), const Color(0xFF95EDC5).withOpacity(0.5)],
+                    
+                    const SizedBox(height: 24),
+                    
+                    // Username TextField
+                    Container(
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Continue',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black.withOpacity(_isButtonEnabled ? 1.0 : 0.5),
-                          fontSize: 20,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
+                      child: TextField(
+                        controller: _usernameController,
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 16,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'Username',
+                          hintStyle: TextStyle(
+                            color: Colors.grey.shade500,
+                            fontSize: 16,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          filled: false,
                         ),
                       ),
                     ),
-                  ),
+                    
+                    const SizedBox(height: 24),
+                    
+                    // Continue button with gradient
+                    Container(
+                      height: 50,
+                      decoration: ShapeDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: _isButtonEnabled 
+                              ? [const Color(0xFF448976), const Color(0xFF95EDC5)]
+                              : [const Color(0xFF448976).withOpacity(0.5), const Color(0xFF95EDC5).withOpacity(0.5)],
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(25),
+                          onTap: _isButtonEnabled 
+                              ? () {
+                                  Navigator.pushNamed(context, '/home');
+                                }
+                              : null,
+                          child: Center(
+                            child: Text(
+                              'Continue',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              
-              const SizedBox(height: 40),
             ],
           ),
         ),

@@ -44,149 +44,157 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center, // Căn giữa tất cả các phần tử theo chiều ngang
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 60.0),
-              
-              // Text "Enter your phone number"
-              const Text(
-                'Enter your phone number',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              
-              const SizedBox(height: 40.0),
-              
-              // Row chứa country code và ô nhập số điện thoại
-              Row(
-                children: [
-                  // Country code button +62 với màu đỏ
-                  Container(
-                    height: 56,
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Center(
-                      child: Row(
-                        children: [
-                          Icon(Icons.add, color: Colors.white, size: 18),
-                          Text(
-                            '62',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  
-                  const SizedBox(width: 8),
-                  
-                  // Trường nhập số điện thoại
-                  Expanded(
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: Column(
+                  children: [
+                    // Text "Enter your phone number"
+                    const Text(
+                      'Enter your phone number',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: TextField(
-                        controller: _phoneController,
-                        keyboardType: TextInputType.phone,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                        decoration: const InputDecoration(
-                          hintText: 'Phone Number',
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
-                          border: InputBorder.none,
-                        ),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              
-              const Spacer(),
-              
-              // Continue button với gradient
-              Center(
-                child: GestureDetector(
-                  onTap: _isButtonEnabled 
-                      ? () {
-                          Navigator.pushNamed(
-                            context, 
-                            '/verification',
-                            arguments: '+62 ${_phoneController.text}',
-                          );
-                        }
-                      : null,
-                  child: Container(
-                    width: 280,
-                    height: 50,
-                    child: Stack(
+                    
+                    const SizedBox(height: 24.0),
+                    
+                    // Row containing country code and phone input
+                    Row(
                       children: [
-                        Positioned(
-                          left: 0,
-                          top: 0,
-                          child: Container(
-                            width: 280,
-                            height: 50,
-                            decoration: ShapeDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment(-0.00, 0.50),
-                                end: Alignment(1.00, 0.50),
-                                colors: _isButtonEnabled 
-                                    ? [const Color(0xFF448976), const Color(0xFF95EDC5)]
-                                    : [const Color(0xFF448976).withOpacity(0.5), const Color(0xFF95EDC5).withOpacity(0.5)],
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
+                        // Country code button
+                        Container(
+                          height: 56,
+                          width: 70, // Fixed width for the country code
+                          decoration: BoxDecoration(
+                            color: Color(0xFFE0E0E0), // Light gray background
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(4),
+                              onTap: () {
+                                // Will implement dropdown functionality here later
+                              },
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.add,
+                                      color: Colors.black87,
+                                      size: 16,
+                                    ),
+                                    Text(
+                                      '62',
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    // Space for flag can be added here later
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        Center(
-                          child: Text(
-                            'Continue',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black.withOpacity(_isButtonEnabled ? 1.0 : 0.5),
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              height: 1.10,
-                              letterSpacing: -0.41,
+                        
+                        // Phone number input field
+                        Expanded(
+                          child: Container(
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            margin: const EdgeInsets.only(left: 8),
+                            child: TextField(
+                              controller: _phoneController,
+                              keyboardType: TextInputType.phone,
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(
+                                color: Colors.black87,
+                                fontSize: 16,
+                              ),
+                              decoration: InputDecoration(
+                                hintText: 'Phone Number',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey.shade500,
+                                  fontSize: 16,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                filled: false,
+                              ),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ),
+                    
+                    const SizedBox(height: 24.0),
+                    
+                    // Continue button with gradient
+                    Container(
+                      height: 50,
+                      decoration: ShapeDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: _isButtonEnabled 
+                              ? [const Color(0xFF448976), const Color(0xFF95EDC5)]
+                              : [const Color(0xFF448976).withOpacity(0.5), const Color(0xFF95EDC5).withOpacity(0.5)],
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(25),
+                          onTap: _isButtonEnabled 
+                              ? () {
+                                  Navigator.pushNamed(
+                                    context, 
+                                    '/verification',
+                                    arguments: '+62 ${_phoneController.text}',
+                                  );
+                                }
+                              : null,
+                          child: Center(
+                            child: Text(
+                              'Continue',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              
-              const SizedBox(height: 40.0),
             ],
           ),
         ),
