@@ -1,9 +1,8 @@
-import 'package:chat_app/features/home/presentation/pages/chats_tab.dart';
-import 'package:chat_app/features/home/presentation/pages/contacts_tab.dart';
-import 'package:chat_app/features/home/presentation/pages/home_tab.dart';
-import 'package:chat_app/features/home/presentation/widgets/notification_icon.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import '../pages/chats_tab.dart';
+import '../pages/contacts_tab.dart';
+import '../pages/home_tab.dart';
 import '../../../../common/constants/colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,25 +24,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings, color: Colors.white),
-            onPressed: () {
-              Navigator.pushNamed(context, '/settings');
-            },
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          // Main content
+          _tabs[_selectedIndex],
+          
+          // Notification bell in bottom right
+          Positioned(
+            bottom: 60,
+            right: 20,
+            child: _notificationBell(),
           ),
         ],
       ),
-      body: Stack(children: [
-        _tabs[_selectedIndex],
-        const Positioned(
-            bottom: 0,
-            right: 20,
-            child: NotificationIcon())
-      ]),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
@@ -51,22 +45,57 @@ class _HomeScreenState extends State<HomeScreen> {
             _selectedIndex = index;
           });
         },
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: Colors.black,
         selectedItemColor: AppColors.primaryColor,
         unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.house_fill),
+            icon: Icon(CupertinoIcons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
+            icon: Icon(CupertinoIcons.chat_bubble_2),
             label: 'Chat',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.phone),
+            icon: Icon(CupertinoIcons.phone),
             label: 'Call',
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _notificationBell() {
+    return Container(
+      height: 45,
+      width: 45,
+      child: Stack(
+        children: [
+          IconButton(
+            icon: const Icon(
+              Icons.notifications,
+              size: 35,
+              color: Color(0xffFFC107), // Yellow color
+            ),
+            onPressed: () {},
+          ),
+          const Positioned(
+            top: 0,
+            right: 0,
+            child: CircleAvatar(
+              radius: 8,
+              backgroundColor: Color(0xffF44336), // Red color
+              child: Text(
+                "1",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

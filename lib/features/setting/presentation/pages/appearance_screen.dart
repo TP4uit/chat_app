@@ -10,7 +10,6 @@ class AppearanceScreen extends StatefulWidget {
 class _AppearanceScreenState extends State<AppearanceScreen> {
   bool _darkMode = true;
   String _selectedFont = 'Default';
-  final List<String> _fonts = ['Default', 'Roboto', 'Open Sans', 'Montserrat'];
   
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Dark Mode with switch
+            // Dark Mode with toggle
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -44,24 +43,17 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                     fontSize: 16.0,
                   ),
                 ),
-                Switch(
-                  value: _darkMode,
-                  onChanged: (value) {
-                    setState(() {
-                      _darkMode = value;
-                    });
-                  },
-                  activeColor: Colors.white,
-                  activeTrackColor: Colors.green,
-                  inactiveThumbColor: Colors.white,
-                  inactiveTrackColor: Colors.grey.shade800,
-                ),
+                _buildToggleSwitch(_darkMode, (value) {
+                  setState(() {
+                    _darkMode = value;
+                  });
+                }),
               ],
             ),
             
             const SizedBox(height: 20.0),
             
-            // Font with PopupMenuButton
+            // Font option
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -72,45 +64,74 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                     fontSize: 16.0,
                   ),
                 ),
-                PopupMenuButton<String>(
-                  color: Colors.grey.shade900,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  offset: const Offset(-20, 0),
-                  child: Row(
-                    children: [
-                      Text(
-                        _selectedFont,
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                      const Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                  onSelected: (String value) {
-                    setState(() {
-                      _selectedFont = value;
-                    });
+                GestureDetector(
+                  onTap: () {
+                    // Show font selection dialog/menu
                   },
-                  itemBuilder: (BuildContext context) {
-                    return _fonts.map((String choice) {
-                      return PopupMenuItem<String>(
-                        value: choice,
-                        child: Text(
-                          choice,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      );
-                    }).toList();
-                  },
+                  child: Text(
+                    _selectedFont,
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 16.0,
+                    ),
+                  ),
                 ),
               ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildToggleSwitch(bool value, Function(bool) onChanged) {
+    return GestureDetector(
+      onTap: () => onChanged(!value),
+      child: Container(
+        width: 51, 
+        height: 31, 
+        clipBehavior: Clip.antiAlias, 
+        decoration: ShapeDecoration(
+          color: value ? const Color(0xFF34C759) : Colors.grey,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100),
+          ),
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              left: value ? 22 : 2,
+              top: 2,
+              child: Container(
+                width: 27,
+                height: 27,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  shadows: const [
+                    BoxShadow(
+                      color: Color(0x0F000000),
+                      blurRadius: 1,
+                      offset: Offset(0, 3),
+                      spreadRadius: 0,
+                    ),
+                    BoxShadow(
+                      color: Color(0x26000000),
+                      blurRadius: 8,
+                      offset: Offset(0, 3),
+                      spreadRadius: 0,
+                    ),
+                    BoxShadow(
+                      color: Color(0x0A000000),
+                      blurRadius: 0,
+                      offset: Offset(0, 0),
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),

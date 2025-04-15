@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../common/constants/colors.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -21,24 +20,18 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Avatar và thông tin người dùng
-            Container(
-              margin: const EdgeInsets.only(bottom: 24.0),
+            // Profile header
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Row(
                 children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPg_Rpex-dL6GPOMJeXJjuMVULKAnHtjQJew&s'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundImage: const NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPg_Rpex-dL6GPOMJeXJjuMVULKAnHtjQJew&s'),
                   ),
                   const SizedBox(width: 16),
                   Column(
@@ -49,6 +42,7 @@ class SettingsScreen extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       SizedBox(height: 4),
@@ -65,44 +59,44 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             
-            // Danh sách các liên kết settings
-            _buildSettingItem(
+            // Menu items
+            _buildMenuOption(
               context,
               icon: Icons.person_outline,
-              title: 'Account',
-              onTap: () => Navigator.pushNamed(context, '/account'),
+              label: 'Account',
+              route: '/account',
             ),
-            _buildDivider(),
+            const SizedBox(height: 20),
             
-            _buildSettingItem(
+            _buildMenuOption(
               context,
               icon: Icons.shield_outlined,
-              title: 'Privacy',
-              onTap: () => Navigator.pushNamed(context, '/privacy'),
+              label: 'Privacy',
+              route: '/privacy',
             ),
-            _buildDivider(),
+            const SizedBox(height: 20),
             
-            _buildSettingItem(
+            _buildMenuOption(
               context,
-              icon: Icons.notifications_none,
-              title: 'Notifications',
-              onTap: () => Navigator.pushNamed(context, '/notification'),
+              icon: Icons.notifications_none_outlined,
+              label: 'Notifications',
+              route: '/notification',
             ),
-            _buildDivider(),
+            const SizedBox(height: 20),
             
-            _buildSettingItem(
+            _buildMenuOption(
               context,
-              icon: Icons.brightness_medium,
-              title: 'Appearance',
-              onTap: () => Navigator.pushNamed(context, '/appearance'),
+              icon: Icons.brightness_6_outlined,
+              label: 'Appearance',
+              route: '/appearance',
             ),
-            _buildDivider(),
+            const SizedBox(height: 20),
             
-            _buildSettingItem(
+            _buildMenuOption(
               context,
               icon: Icons.person_add_outlined,
-              title: 'Invite a Friend',
-              onTap: () => Navigator.pushNamed(context, '/invite'),
+              label: 'Invite a Friend',
+              route: '/invite',
             ),
           ],
         ),
@@ -110,41 +104,31 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSettingItem(
+  Widget _buildMenuOption(
     BuildContext context, {
     required IconData icon,
-    required String title,
-    required VoidCallback onTap,
+    required String label,
+    required String route,
   }) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0),
-        child: Row(
-          children: [
-            Icon(
-              icon,
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, route),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: Colors.white,
+            size: 24,
+          ),
+          const SizedBox(width: 16),
+          Text(
+            label,
+            style: const TextStyle(
               color: Colors.white,
-              size: 24.0,
+              fontSize: 16,
             ),
-            const SizedBox(width: 16.0),
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
-  
-  Widget _buildDivider() {
-    return const Divider(
-      color: Colors.transparent,
-      height: 8,
     );
   }
 }

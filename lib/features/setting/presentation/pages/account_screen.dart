@@ -22,19 +22,18 @@ class AccountScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Phần avatar và thông tin
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              children: [
-                const SizedBox(height: 40),
-                // Avatar image
-                Container(
+          // Profile section
+          Column(
+            children: [
+              const SizedBox(height: 40),
+              // Profile image
+              Center(
+                child: Container(
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: const DecorationImage(
+                    image: DecorationImage(
                       image: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPg_Rpex-dL6GPOMJeXJjuMVULKAnHtjQJew&s'),
                       fit: BoxFit.cover,
                     ),
@@ -58,45 +57,43 @@ class AccountScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                
-                const SizedBox(height: 20),
-                const Text(
-                  'Phuc Le Quang',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+              ),
+              
+              const SizedBox(height: 20),
+              const Text(
+                'Phuc Le Quang',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
                 ),
-                const SizedBox(height: 4),
-                const Text(
-                  '+84 889 378 933',
-                  style: TextStyle(
-                    color: Colors.white54,
-                    fontSize: 16,
-                  ),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                '+84 889 378 933',
+                style: TextStyle(
+                  color: Colors.white54,
+                  fontSize: 14,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           
-          // Phần các nút
+          // Buttons section
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
                 _buildActionButton(
                   'Take a photo',
-                  onTap: () {
-                    // Xử lý chụp ảnh
-                  },
+                  onTap: () {},
+                  color: const Color(0xFF4CAF97),
                 ),
                 const SizedBox(height: 10),
                 _buildActionButton(
                   'Select from library',
-                  onTap: () {
-                    // Xử lý chọn từ thư viện
-                  },
+                  onTap: () {},
+                  color: const Color(0xFF4CAF97),
                 ),
                 const SizedBox(height: 10),
                 _buildActionButton(
@@ -104,6 +101,8 @@ class AccountScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                   },
+                  color: const Color(0xFF4CAF97),
+                  isRounded: true,
                 ),
                 const SizedBox(height: 20),
               ],
@@ -114,15 +113,17 @@ class AccountScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButton(String text, {required VoidCallback onTap}) {
+  Widget _buildActionButton(String text, {required VoidCallback onTap, required Color color, bool isRounded = false}) {
     return InkWell(
       onTap: onTap,
       child: Container(
         width: double.infinity,
         height: 50,
         decoration: BoxDecoration(
-          color: const Color(0xFF4CAF97), // Mint green
-          borderRadius: BorderRadius.circular(8),
+          color: color,
+          borderRadius: isRounded 
+              ? BorderRadius.circular(25)
+              : BorderRadius.circular(8),
         ),
         child: Center(
           child: Text(
