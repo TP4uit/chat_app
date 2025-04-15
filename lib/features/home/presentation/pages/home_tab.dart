@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/basic_chat_item.dart';
 
 import '../../../../common/constants/colors.dart';
+import '../widgets/tab_header.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});
@@ -9,34 +10,31 @@ class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text(
-          'Home',
-          style: TextStyle(
-            color: Color(0xFF4CAF97),
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings, color: Colors.white),
-            onPressed: () {
-              Navigator.pushNamed(context, '/settings');
-            },
-          ),
-        ],
-      ),
       body: DefaultTabController(
         length: 2,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Profile section
+
+            const SizedBox(
+              height: 47,
+            ),
+            TabHeader(
+                title: 'Home',
+                trailingIcon: Row(children: [
+
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/settings');
+                      },
+                      icon: const Icon(
+                        Icons.settings,
+                        color: Colors.white,
+                      )),
+
+                ],) ),
+            SizedBox(height: 18,),
             _myProfile(),
-            
             // Tab bar (Contacts/Groups)
             Container(
               child: const TabBar(
@@ -48,7 +46,7 @@ class HomeTab extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             // Tab bar view (contact list)
             Expanded(
               child: TabBarView(

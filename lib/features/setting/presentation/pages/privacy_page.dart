@@ -1,3 +1,4 @@
+import 'package:chat_app/features/setting/presentation/widgets/switch_toggles.dart';
 import 'package:flutter/material.dart';
 
 class PrivacyPage extends StatefulWidget {
@@ -8,59 +9,42 @@ class PrivacyPage extends StatefulWidget {
 }
 
 class _PrivacyPageState extends State<PrivacyPage> {
-  bool isSwitch=false;
+  bool _isSwitch1 = false;
+  bool _isSwitch2 = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( leading: IconButton(
-        icon: const Icon(Icons.arrow_back,color: Colors.white,),
+      appBar: AppBar(leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white,),
         onPressed: () => Navigator.pop(context),
       ),
-        title: const Text('Invite friend',style: TextStyle(color: Colors.white),),),
+        title: const Text(
+          'Invite friend', style: TextStyle(color: Colors.white),),),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _1stLabel(),
-                _1stToggle()
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _2ndLabel(),
-                _2ndToggle()
-              ],
-            ),
+            SwitchToggles(title: "Allow others to see your friends list",
+                value: _isSwitch1,
+                onChange: (value) {
+                  setState(() {
+                    _isSwitch1 = value;
+                  });
+                }),
+
+            SizedBox(height: 16,),
+
+            SwitchToggles(title: "Set pin code",
+                value: _isSwitch2,
+                onChange: (value) {
+                  setState(() {
+                    _isSwitch2 = value;
+                  });
+                }),
           ],
         ),
       ),
     );
-
-
-
-  }
-
-  Widget _1stLabel()
-  {
-    return const Text("Allow others to see your friends list");
-  }
-
-  Widget _1stToggle()
-  {
-    return Switch(value: isSwitch, onChanged: (value){});
-  }
-
-  Widget _2ndLabel()
-  {
-    return const Text("Set pin code");
-  }
-
-  Widget _2ndToggle()
-  {
-    return Switch(value: isSwitch, onChanged: (value){});
   }
 }
