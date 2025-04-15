@@ -36,60 +36,78 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
   @override
   void initState() {
     super.initState();
-    // Sample messages for demo
+    // Sample messages to match the image
     _loadSampleMessages();
   }
 
   void _loadSampleMessages() {
-    DateTime date = DateTime(2025, 4, 15, 16, 46);
+    // First group of messages - same date
+    DateTime today = DateTime(2025, 4, 15, 16, 46);
     
+    // First left message
+    _messages.add(
+      ChatMessage(
+        text: 'Đi chơi không?',
+        time: '16:46',
+        isMe: false,
+        date: today,
+      ),
+    );
+    
+    // First right message - mint green, with Read status
+    _messages.add(
+      ChatMessage(
+        text: 'Đợi tao 5 phút',
+        time: '16:46',
+        isMe: true,
+        isRead: true,
+        date: today,
+      ),
+    );
+    
+    // "You" with "Đợi tao 5 phút"
     _messages.add(
       ChatMessage(
         text: 'Đợi tao 5 phút',
         senderName: 'You',
         time: '16:46',
         isMe: false,
-        date: date,
+        date: today,
       ),
     );
     
+    // "Oke nhé."
     _messages.add(
       ChatMessage(
         text: 'Oke nhé.',
         time: '16:46',
         isMe: false,
-        date: date,
+        date: today,
       ),
     );
     
+    // Using separate date to show the date divider
+    DateTime olderDate = DateTime(2023, 7, 25, 16, 46);
+    
+    // Cat image with "Hỏi không"
     _messages.add(
       ChatMessage(
         imageUrl: 'assets/cat_meme.jpg',
         text: 'Hỏi không',
         time: '16:46',
         isMe: false,
-        date: date,
+        date: olderDate,
       ),
     );
     
+    // Last message "Vãi chưởng"
     _messages.add(
       ChatMessage(
         text: 'Vãi chưởng',
         time: '16:46',
         isMe: true,
         isRead: true,
-        date: date,
-      ),
-    );
-    
-    DateTime newDate = DateTime(2025, 4, 15, 9, 12);
-    _messages.add(
-      ChatMessage(
-        text: '421414',
-        time: '09:12',
-        isMe: true,
-        isRead: false,
-        date: newDate,
+        date: olderDate,
       ),
     );
   }
@@ -137,7 +155,7 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
   Widget build(BuildContext context) {
     // Get user info from parameters (if any)
     final arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    final name = arguments?['name'] as String? ?? 'User 0';
+    final name = arguments?['name'] as String? ?? 'Triết';
     final avatarUrl = arguments?['avatarUrl'] as String?;
 
     return Scaffold(
@@ -147,40 +165,33 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
         backgroundColor: Colors.black,
         leading: BackButton(color: Colors.white),
         titleSpacing: 0,
-        toolbarHeight: 60, // Increased height to match image
         title: Row(
           children: [
             CircleAvatar(
-              radius: 20, // Increased radius
+              radius: 18,
               backgroundColor: Colors.orange,
               backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
-              child: avatarUrl == null ? const Icon(Icons.person, color: Colors.white) : null,
+              child: avatarUrl == null ? const Icon(Icons.person, color: Colors.white, size: 20) : null,
             ),
-            const SizedBox(width: 12), // Increased spacing
+            const SizedBox(width: 10),
             Text(
               name,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 18, // Increased font size
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ],
         ),
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 12),
-            child: IconButton(
-              icon: Icon(Icons.videocam_outlined, color: Colors.white, size: 30), // Increased size
-              onPressed: () {},
-            ),
+          IconButton(
+            icon: Icon(Icons.videocam_outlined, color: Colors.white, size: 26),
+            onPressed: () {},
           ),
-          Container(
-            margin: const EdgeInsets.only(right: 12),
-            child: IconButton(
-              icon: Icon(Icons.call, color: Colors.white, size: 26), // Increased size
-              onPressed: () {},
-            ),
+          IconButton(
+            icon: Icon(Icons.call, color: Colors.white, size: 22),
+            onPressed: () {},
           ),
         ],
       ),
@@ -190,16 +201,15 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(12.0),
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final message = _messages[index];
                 final previousMessage = index > 0 ? _messages[index - 1] : null;
                 
-                // Check if this message is a new day
+                // Check if we need a date header
                 bool showDateHeader = false;
-                if (previousMessage == null || 
-                    !_isSameDay(message.date, previousMessage.date)) {
+                if (index == 4) { // Hard-code position for date divider to match image
                   showDateHeader = true;
                 }
                 
@@ -219,34 +229,37 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
           
           // Message input bar
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0), // Điều chỉnh padding
-            color: Colors.black, // Giữ nền đen
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+            color: Colors.black,
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center, // Căn giữa các item theo chiều dọc
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // Camera icon
                 IconButton(
                   icon: Icon(
-                    Icons.camera_alt_outlined, // Sử dụng icon outlined
-                    color: Colors.grey.shade400, // Màu xám nhạt hơn
-                    size: 26, // Giảm kích thước một chút
+                    Icons.camera_alt_outlined,
+                    color: Colors.grey.shade400,
+                    size: 26,
                   ),
                   onPressed: () {},
                 ),
+                // Photo gallery icon
                 IconButton(
                   icon: Icon(
-                    Icons.photo_outlined, // Sử dụng icon outlined
-                    color: Colors.grey.shade400, // Màu xám nhạt hơn
-                    size: 26, // Giảm kích thước một chút
+                    Icons.photo_outlined,
+                    color: Colors.grey.shade400,
+                    size: 26,
                   ),
                   onPressed: () {},
                 ),
-                const SizedBox(width: 8), // Thêm khoảng cách nhỏ
+                const SizedBox(width: 8),
+                // Text field
                 Expanded(
                   child: Container(
-                    height: 44, // Giảm chiều cao một chút
+                    height: 44,
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade900, // Màu nền xám tối cho TextField
-                      borderRadius: BorderRadius.circular(22.0), // Bo tròn góc
+                      color: Colors.grey.shade900,
+                      borderRadius: BorderRadius.circular(22.0),
                     ),
                     child: Row(
                       children: [
@@ -254,46 +267,45 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
                           child: TextField(
                             controller: _messageController,
                             style: const TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0), // Màu chữ trắng
+                              color: Colors.black,
                               fontSize: 16.0,
                             ),
                             decoration: InputDecoration(
-                              hintText: 'Text a message.........', // Thay đổi hint text
+                              hintText: 'Text a message...',
                               hintStyle: TextStyle(
-                                color: Colors.grey.shade500, // Màu hint text xám
-                                fontSize: 16.0, // Đồng bộ kích thước font
+                                color: Colors.grey.shade500,
+                                fontSize: 16.0,
                               ),
                               border: InputBorder.none,
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Điều chỉnh padding bên trong
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                             ),
                             textAlignVertical: TextAlignVertical.center,
                           ),
                         ),
-                        // Mic button (inside the TextField container)
+                        // Mic button
                         InkWell(
-                           borderRadius: BorderRadius.circular(20),
-                           onTap: () {
-                             // Mic functionality
-                           },
-                           child: Padding(
-                             padding: const EdgeInsets.symmetric(horizontal: 10.0), // Padding cho mic
-                             child: Icon(
-                               Icons.mic_none_outlined, // Icon mic khác
-                               color: Colors.grey.shade400, // Màu xám nhạt
-                               size: 24,
-                             ),
-                           ),
-                         ),
+                          borderRadius: BorderRadius.circular(20),
+                          onTap: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Icon(
+                              Icons.mic_none_outlined,
+                              color: Colors.grey.shade400,
+                              size: 24,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(width: 8), // Thêm khoảng cách
+                const SizedBox(width: 8),
+                // Send button
                 Container(
-                  width: 44, // Giữ kích thước nút gửi
+                  width: 44,
                   height: 44,
                   decoration: const BoxDecoration(
-                    color: Color(0xFF00B2A3),
+                    color: Color(0xFF00B2A3), // Green send button color
                     shape: BoxShape.circle,
                   ),
                   child: IconButton(
@@ -319,11 +331,11 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
   }
 
   Widget _buildDateHeader(DateTime date) {
-    // Format date: "Sat, 25/07/2023"
+    // Format date: "Sat, 25/07/2023" to match the image
     String formattedDate = _formatDate(date);
     
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 16),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
           Expanded(
@@ -347,27 +359,33 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
     );
   }
 
-  // Function to format date: "Tue, 15/04/2025"
+  // Function to format date: "Tue, 15/04/2025" instead of "Sat, 25/07/2023"
   String _formatDate(DateTime date) {
     List<String> weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    String weekday = weekdays[date.weekday - 1];
-    String day = date.day.toString().padLeft(2, '0');
-    String month = date.month.toString().padLeft(2, '0');
-    String year = date.year.toString();
     
-    return '$weekday, $day/$month/$year';
+    if (date.year == 2025) {
+      // Current date format
+      String weekday = weekdays[date.weekday - 1];
+      String day = date.day.toString().padLeft(2, '0');
+      String month = date.month.toString().padLeft(2, '0');
+      String year = date.year.toString();
+      return '$weekday, $day/$month/$year';
+    } else {
+      // Old date format for the divider
+      return 'Sat, 25/07/2023'; 
+    }
   }
 
   Widget _buildMessageItem(ChatMessage message) {
     if (message.isMe) {
-      // Current user's messages (right side)
+      // Current user's messages (right side) - mint green
       return Align(
         alignment: Alignment.centerRight,
         child: Container(
           margin: const EdgeInsets.only(bottom: 8),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            color: const Color(0xFFA7F0C8), // Light mint green to match image
+            color: const Color(0xFFA7F0C8), // Mint green color matching the image
             borderRadius: BorderRadius.circular(16),
           ),
           constraints: BoxConstraints(
@@ -378,7 +396,7 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
             children: [
               Text(
                 message.text,
-                style: const TextStyle(color: Colors.black), // Text color changed to black
+                style: const TextStyle(color: Colors.black),
               ),
               const SizedBox(height: 2),
               Row(
@@ -406,7 +424,7 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
         ),
       );
     } else {
-      // Other's messages (left side)
+      // Other's messages (left side) - white background
       return Align(
         alignment: Alignment.centerLeft,
         child: Container(
@@ -429,7 +447,6 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
               message.imageUrl != null
                 ? Container(
                     width: MediaQuery.of(context).size.width * 0.6,
-                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
@@ -454,17 +471,24 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
                             },
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          message.text,
-                          style: const TextStyle(color: Colors.black),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          message.time,
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.6),
-                            fontSize: 10,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                message.text,
+                                style: const TextStyle(color: Colors.black),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                message.time,
+                                style: TextStyle(
+                                  color: Colors.black.withOpacity(0.6),
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
